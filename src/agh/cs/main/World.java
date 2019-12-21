@@ -12,10 +12,11 @@ public class World {
         IWorldMap map = new Map(width, height, jungleRatio);
         map.spawnOrigin(4); // Spawns first animals
         System.out.print(map.toString());
-        int i = 0;
-        while (i++<300)
-            map.nextDay();
 
-        System.out.print(map.toString());
+        int i = 0;
+        while (true) {
+            map.nextDay();
+            System.out.print(map.toString());
+        }
     }
 }

@@ -1,5 +1,7 @@
 package agh.cs.main;
 
+import javafx.scene.paint.Color;
+
 import java.util.*;
 
 public class Map implements IWorldMap, IPositionChangeObserver {
@@ -27,6 +29,35 @@ public class Map implements IWorldMap, IPositionChangeObserver {
         this.jungleStartPoint = new Vector2d((width - (int) (width*jungleRatio))/2, (height - (int) (height*jungleRatio))/2);
         this.jungleEndPoint = new Vector2d((width - (int) (width*jungleRatio))/2 + (int) (width*jungleRatio),
                 (height - (int) (height*jungleRatio))/2 + (int) (height*jungleRatio));
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Color getColorOfElement(Vector2d position) {
+        Color colorToDisplay = Color.BLACK;
+
+        if(mapAnimals.containsKey(position)) {
+            List<Animal> animalList = mapAnimals.get(position);
+            if(!animalList.isEmpty()) {
+                Animal strongestAnimal = animalList.get(0);
+                for (Animal animal : animalList) {
+                    if (animal.getEnergy() > strongestAnimal.getEnergy())
+                        strongestAnimal = animal;
+                }
+
+                colorToDisplay = Color.BROWN;
+            }
+        }
+        else if (mapPlants.containsKey(position))
+            colorToDisplay = Color.GREEN;
+
+        return colorToDisplay;
     }
 
     public void nextDay() {

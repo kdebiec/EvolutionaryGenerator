@@ -125,6 +125,8 @@ public class Map implements IWorldMap, IPositionChangeObserver {
     }
 
     public void breeding() {
+        List<Animal> childrenToAdd = new ArrayList<>();
+
         for (java.util.Map.Entry<Vector2d, LinkedList<Animal>> position_animals : mapAnimals.entrySet()) {
             Vector2d position = position_animals.getKey();
             if (!position_animals.getValue().isEmpty()) {
@@ -136,8 +138,7 @@ public class Map implements IWorldMap, IPositionChangeObserver {
                                 position.getY() + (int) (Math.random() * 3) - 1);
 
                         Animal child = new Animal(this.inBoundaries(childPosition), elementList.get(0), elementList.get(1));
-                        elementList.add(child);
-                        animalList.add(child);
+                        childrenToAdd.add(child);
                     }
                 }
                 else if (elementList.size() >= 2) {
@@ -161,11 +162,22 @@ public class Map implements IWorldMap, IPositionChangeObserver {
                                 position.getY() + (int)(Math.random()*3) - 1);
 
                         Animal child = new Animal(this.inBoundaries(childPosition), strongestAnimal, strongestAnimal2);
-                        elementList.add(child);
-                        animalList.add(child);
+                        childrenToAdd.add(child);
                     }
                 }
             }
+        }
+
+        for (Animal child: childrenToAdd) {
+            if(mapAnimals.containsKey(child.getPosition()))
+                mapAnimals.get(child.getPosition()).add(child);
+            else {
+                LinkedList<Animal> listElements = new LinkedList<>();
+                listElements.add(child);
+                mapAnimals.put(child.getPosition(), listElements);
+            }
+
+            animalList.add(child);
         }
     }
 

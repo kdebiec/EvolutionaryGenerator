@@ -66,7 +66,7 @@ public class Animal extends MapElement {
         energy += energyEaten;
     }
 
-    public boolean move() {
+    public void move() {
         this.moveDirection = this.genes.chooseDirection();
 
         Vector2d proposedPos = position.add(this.moveDirection.toUnitVector());
@@ -74,7 +74,6 @@ public class Animal extends MapElement {
         positionChanged(position, newPos);
         position = newPos;
         energy -= Animal.MOVE_ENERGY_COST;
-        return true;
     }
 
     @Override

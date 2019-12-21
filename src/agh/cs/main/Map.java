@@ -3,6 +3,8 @@ package agh.cs.main;
 import java.util.*;
 
 public class Map implements IWorldMap, IPositionChangeObserver {
+    public static int PLANTS_TO_SPAWN_IN_JUNGLE_PER_DAY = 1;
+    public static int PLANTS_TO_SPAWN_IN_OUTSKIRTS_PER_DAY = 2;
     private int width;
     private int height;
 
@@ -128,8 +130,8 @@ public class Map implements IWorldMap, IPositionChangeObserver {
     }
 
     public void spawnPlants() {
-        boolean plantedInJungle = false;
-        boolean plantedInOutskirts = false;
+        int plantedInJungle = 0;
+        int plantedInOutskirts = 0;
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -139,30 +141,32 @@ public class Map implements IWorldMap, IPositionChangeObserver {
                         || proposedPlantPosition.getX() > this.jungleEndPoint.getX()
                         || proposedPlantPosition.getY() < this.jungleStartPoint.getY()
                         || proposedPlantPosition.getY() > this.jungleEndPoint.getY())
-                        && !plantedInOutskirts) {
+                        && !(plantedInOutskirts == Map.PLANTS_TO_SPAWN_IN_OUTSKIRTS_PER_DAY)) {
                     if(mapPlants.containsKey(proposedPlantPosition))
                         continue;
 
                     mapPlants.put(proposedPlantPosition, new Plant(proposedPlantPosition));
-                    plantedInOutskirts = true;
+                    plantedInOutskirts++;
                 }
                 else if (!(proposedPlantPosition.getX() < this.jungleStartPoint.getX()
                         || proposedPlantPosition.getX() > this.jungleEndPoint.getX()
                         || proposedPlantPosition.getY() < this.jungleStartPoint.getY()
                         || proposedPlantPosition.getY() > this.jungleEndPoint.getY())
-                        && !plantedInJungle) {
+                        && !(plantedInJungle == Map.PLANTS_TO_SPAWN_IN_JUNGLE_PER_DAY)) {
                     if(mapPlants.containsKey(proposedPlantPosition))
                         continue;
 
                     mapPlants.put(proposedPlantPosition, new Plant(proposedPlantPosition));
-                    plantedInJungle = true;
+                    plantedInJungle++;
                 }
 
-                if(plantedInOutskirts && plantedInJungle)
+                if(plantedInOutskirts == Map.PLANTS_TO_SPAWN_IN_OUTSKIRTS_PER_DAY
+                        && plantedInJungle == Map.PLANTS_TO_SPAWN_IN_JUNGLE_PER_DAY)
                     break;
             }
 
-            if(plantedInOutskirts && plantedInJungle)
+            if(plantedInOutskirts == Map.PLANTS_TO_SPAWN_IN_OUTSKIRTS_PER_DAY
+                    && plantedInJungle == Map.PLANTS_TO_SPAWN_IN_JUNGLE_PER_DAY)
                 break;
         }
     }

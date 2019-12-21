@@ -9,6 +9,8 @@ public class InitialParameters {
     private float jungleRatio;
     private int initialNumberOfAnimals;
     private int animalMinimumEnergyToProcreate;
+    private int plantsToSpawnInJunglePerDay;
+    private int plantsToSpawnInOutskirtsPerDay;
 
     public int getWidth() {
         return width;
@@ -40,5 +42,13 @@ public class InitialParameters {
 
     public int getAnimalMinimumEnergyToProcreate() {
         return animalMinimumEnergyToProcreate;
+    }
+
+    public int getPlantsToSpawnInJunglePerDay() {
+        return plantsToSpawnInJunglePerDay;
+    }
+
+    public int getPlantsToSpawnInOutskirtsPerDay() {
+        return plantsToSpawnInOutskirtsPerDay;
     }
 }

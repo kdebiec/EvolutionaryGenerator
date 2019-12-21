@@ -7,4 +7,6 @@
   "jungleRatio": 0.1,
   "initialNumberOfAnimals": 5,
   "animalMinimumEnergyToProcreate": 5,
+  "plantsToSpawnInJunglePerDay": 1,
+  "plantsToSpawnInOutskirtsPerDay": 2
 }

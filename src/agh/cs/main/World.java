@@ -23,6 +23,9 @@ public class World {
         Animal.INITIAL_ENERGY = initialParameters.getStartEnergy();
         Animal.MIN_ENERGY_TO_POPULATE = initialParameters.getAnimalMinimumEnergyToProcreate();
         Animal.MOVE_ENERGY_COST = initialParameters.getMoveEnergy();
+        Map.PLANTS_TO_SPAWN_IN_JUNGLE_PER_DAY = initialParameters.getPlantsToSpawnInJunglePerDay();
+        Map.PLANTS_TO_SPAWN_IN_OUTSKIRTS_PER_DAY = initialParameters.getPlantsToSpawnInOutskirtsPerDay();
+
         IWorldMap map = new Map(initialParameters.getWidth(),
                 initialParameters.getHeight(),
                 initialParameters.getJungleRatio());

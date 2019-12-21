@@ -1,0 +1,10 @@
+{
+  "width": 20,
+  "height": 20,
+  "startEnergy": 50,
+  "moveEnergy": 2,
+  "plantEnergy": 10,
+  "jungleRatio": 0.1,
+  "initialNumberOfAnimals": 5,
+  "animalMinimumEnergyToProcreate": 5,
+}

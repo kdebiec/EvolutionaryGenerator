@@ -75,7 +75,9 @@ public class Map implements IWorldMap, IPositionChangeObserver {
         for (Iterator<Animal> iter = animalList.listIterator(); iter.hasNext(); ) {
             Animal animal = iter.next();
             if (animal.isDead()) {
-                mapAnimals.get(animal.getPosition()).remove(animal);
+                if(mapAnimals.containsKey(animal.getPosition()))
+                    mapAnimals.get(animal.getPosition()).remove(animal);
+
                 iter.remove();
             }
         }
@@ -89,32 +91,34 @@ public class Map implements IWorldMap, IPositionChangeObserver {
 
     public void animalsEat() {
         for(Animal animal: animalList) {
-            if (mapPlants.containsKey(animal.getPosition())) {
-                List<Animal> elementList = mapAnimals.get(animal.getPosition());
-                if (elementList.size() == 1) {
-                    mapPlants.remove(animal.getPosition());
-                    animal.eat(Plant.PLANT_ENERGY);
+            Vector2d pos = animal.getPosition();
+            if (mapPlants.containsKey(pos)) {
+                List<Animal> elementList = mapAnimals.get(pos);
+                if (elementList == null || elementList.isEmpty()) {
+                    continue;
                 }
-                else {
+                if (elementList.size() == 1) {
+                    mapPlants.remove(pos);
+                    animal.eat(Plant.PLANT_ENERGY);
+                } else {
                     List<Animal> strongestAnimals = new ArrayList<>();
                     strongestAnimals.add(animal);
 
-                    for (Animal candidateAnimal: elementList) {
-                        if(candidateAnimal.getEnergy() > strongestAnimals.get(0).getEnergy()) {
+                    for (Animal candidateAnimal : elementList) {
+                        if (candidateAnimal.getEnergy() > strongestAnimals.get(0).getEnergy()) {
                             strongestAnimals = new ArrayList<>();
                             strongestAnimals.add(candidateAnimal);
-                        }
-                        else if (candidateAnimal.getEnergy() == strongestAnimals.get(0).getEnergy()) {
+                        } else if (candidateAnimal.getEnergy() == strongestAnimals.get(0).getEnergy()) {
                             strongestAnimals.add(candidateAnimal);
                         }
                     }
 
-                    int energyPerAnimal = Plant.PLANT_ENERGY/strongestAnimals.size();
+                    int energyPerAnimal = Plant.PLANT_ENERGY / strongestAnimals.size();
 
-                    for (Animal strongestAnimal: strongestAnimals)
+                    for (Animal strongestAnimal : strongestAnimals)
                         strongestAnimal.eat(energyPerAnimal);
 
-                    mapPlants.remove(animal.getPosition());
+                    mapPlants.remove(pos);
                 }
             }
         }
@@ -133,6 +137,7 @@ public class Map implements IWorldMap, IPositionChangeObserver {
 
                         Animal child = new Animal(this.inBoundaries(childPosition), elementList.get(0), elementList.get(1));
                         elementList.add(child);
+                        animalList.add(child);
                     }
                 }
                 else if (elementList.size() >= 2) {
@@ -157,6 +162,7 @@ public class Map implements IWorldMap, IPositionChangeObserver {
 
                         Animal child = new Animal(this.inBoundaries(childPosition), strongestAnimal, strongestAnimal2);
                         elementList.add(child);
+                        animalList.add(child);
                     }
                 }
             }

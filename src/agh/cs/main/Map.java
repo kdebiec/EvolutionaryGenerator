@@ -51,7 +51,10 @@ public class Map implements IWorldMap, IPositionChangeObserver {
                         strongestAnimal = animal;
                 }
 
-                colorToDisplay = Color.BROWN;
+                if(!strongestAnimal.isDead()) {
+                    float brightness = (float) strongestAnimal.getEnergy()/ (float) (Animal.INITIAL_ENERGY);
+                    colorToDisplay = Color.rgb((int) (255 * Math.min(brightness, 1.0)), 0, 0);
+                }
             }
         }
         else if (mapPlants.containsKey(position))
